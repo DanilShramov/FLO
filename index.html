@@ -1,11 +1,136 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FLO — Training</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FLO — Обучение и стандарты</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f5f3ee;color:#1f1f1f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}.card{width:100%;max-width:430px;background:#fff;border-radius:22px;padding:38px 28px;box-shadow:0 14px 40px rgba(0,0,0,.07);text-align:center}.logo{font:600 44px Georgia,serif;letter-spacing:12px;margin-left:12px}.tag{font-size:10px;letter-spacing:1.7px;margin:10px 0 28px;color:#777}.line{height:1px;background:#dedbd4;margin-bottom:28px}.title{font:500 22px Georgia,serif;margin:0 0 20px}input{width:100%;padding:15px 16px;border:1px solid #d8d5cf;border-radius:12px;margin:7px 0;font-size:16px;background:#faf9f6}.btn{display:block;width:100%;border:0;border-radius:12px;background:#202020;color:#fff;padding:15px;margin-top:14px;font-size:16px;cursor:pointer}.note{font-size:12px;color:#999;margin-top:20px}
+:root{--bg:#f5f3ee;--card:#fff;--text:#292d31;--muted:#858585;--line:#dedbd4;--dark:#34414d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+.wrap{max-width:760px;margin:auto;padding:32px 18px 60px}.card{background:var(--card);border:1px solid #ebe8e1;border-radius:26px;padding:34px;box-shadow:0 12px 40px rgba(0,0,0,.04)}
+.brand{text-align:center}.logo{font:52px Georgia,serif;letter-spacing:12px;margin-left:12px}.tag{font-size:11px;letter-spacing:2.2px;color:#777;margin-top:10px}.rule{height:1px;background:var(--line);margin:28px 0}
+h1{font:28px Georgia,serif;margin:0 0 8px}h2{font:23px Georgia,serif;margin:0}.sub{color:var(--muted);font-size:14px;margin:5px 0 22px}
+input,select{width:100%;padding:15px 16px;border:1px solid #d8d5cf;border-radius:13px;background:#faf9f6;font-size:16px;margin:6px 0;outline:none}
+button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:pointer}.primary{width:100%;background:var(--dark);color:white;font-weight:650;margin-top:8px}.secondary{background:#eeece7;color:#333}.danger{background:#f6e8e8;color:#8a3030}
+.hidden{display:none!important}.top{display:flex;justify-content:space-between;gap:14px;align-items:center}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}.tile{padding:20px;border:1px solid var(--line);border-radius:16px;background:#faf9f6}.tile b{display:block;font:20px Georgia,serif;margin-bottom:5px}
+.list{margin-top:16px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #eeeae3;padding:15px 2px}.row:first-child{border-top:0}.name{font-weight:650}.meta{font-size:13px;color:#777;margin-top:4px}
+.notice{padding:12px 14px;border-radius:12px;background:#f4f2ed;font-size:14px;margin:12px 0}.error{background:#f8e9e9;color:#8a3030}.ok{background:#eaf4ec;color:#32623c}
+.modal{position:fixed;inset:0;background:rgba(30,30,30,.28);display:flex;align-items:center;justify-content:center;padding:18px}.modalbox{background:white;border-radius:22px;padding:26px;width:min(520px,100%);max-height:90vh;overflow:auto}
+@media(max-width:600px){.wrap{padding:16px 12px 40px}.card{padding:25px 20px;border-radius:22px}.logo{font-size:44px}.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.actions{width:100%}.actions button{flex:1}}
 </style>
 </head>
-<body><div class="wrap"><main class="card"><div class="logo">FLO</div><div class="tag">FOOD LOVERS ONLY · СДЕЛАНО В ПЕТЕРБУРГЕ</div><div class="line"></div><h1 class="title">Обучение и стандарты</h1><form onsubmit="event.preventDefault(); const l=this.login.value.trim(),p=this.password.value; if(l==='admin'&&p==='2026'){document.querySelector('.title').textContent='Администратор';this.innerHTML='<button class=\"btn\" type=\"button\">Сотрудники</button><button class=\"btn\" type=\"button\">Материалы</button><button class=\"btn\" type=\"button\">Тесты</button>'}else{alert('Неверный логин или пароль')}"><input name="login" placeholder="Логин" autocomplete="username" required><input name="password" type="password" placeholder="Пароль" autocomplete="current-password" required><button class="btn">Войти</button></form><div class="note">FLO · внутренняя система</div></main></div></body>
-</html>
+<body>
+<div class="wrap">
+  <section id="loginView" class="card">
+    <div class="brand"><div class="logo">FLO</div><div class="tag">FOOD LOVERS ONLY · СДЕЛАНО В ПЕТЕРБУРГЕ</div></div>
+    <div class="rule"></div>
+    <h1>Обучение и стандарты</h1><div class="sub">Внутренняя система FLO</div>
+    <form id="loginForm">
+      <input id="email" type="email" placeholder="Email" autocomplete="username" required>
+      <input id="password" type="password" placeholder="Пароль" autocomplete="current-password" required>
+      <button class="primary" type="submit">Войти</button>
+    </form>
+    <div id="loginMsg"></div>
+  </section>
+
+  <section id="adminView" class="card hidden">
+    <div class="top">
+      <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:8px">FLO</div></div><h1 style="margin-top:18px">Администратор</h1><div id="adminEmail" class="sub"></div></div>
+      <div class="actions"><button id="addBtn" class="secondary">+ Добавить сотрудника</button><button id="logoutBtn" class="secondary">Выйти</button></div>
+    </div>
+    <div class="grid">
+      <div class="tile"><b id="countEmployees">0</b><span>Сотрудников</span></div>
+      <div class="tile"><b>FLO</b><span>Материалы — следующий этап</span></div>
+      <div class="tile"><b>Тесты</b><span>Следующий этап</span></div>
+    </div>
+    <div class="rule"></div>
+    <h2>Сотрудники</h2><div class="sub">Список сохраняется в Cloud Firestore</div>
+    <div id="employeeMsg"></div><div id="employeeList" class="list"></div>
+  </section>
+
+  <section id="employeeView" class="card hidden">
+    <div class="brand"><div class="logo">FLO</div><div class="tag">FOOD LOVERS ONLY · СДЕЛАНО В ПЕТЕРБУРГЕ</div></div>
+    <div class="rule"></div><h1>Обучение</h1><div id="employeeHello" class="sub"></div>
+    <div class="grid"><div class="tile"><b>Сервис</b><span>Материалы</span></div><div class="tile"><b>Кухня</b><span>Материалы</span></div><div class="tile"><b>Бар</b><span>Материалы</span></div></div>
+    <button id="employeeLogoutBtn" class="secondary">Выйти</button>
+  </section>
+</div>
+
+<div id="modal" class="modal hidden">
+ <div class="modalbox">
+  <div class="top"><div><h2>Новый сотрудник</h2><div class="sub">Создание аккаунта и карточки сотрудника</div></div><button id="closeModal" class="secondary">Закрыть</button></div>
+  <form id="employeeForm">
+    <input id="empName" placeholder="Имя Фамилия" required>
+    <input id="empEmail" type="email" placeholder="Email сотрудника" required>
+    <input id="empPassword" type="password" placeholder="Временный пароль (минимум 6 символов)" minlength="6" required>
+    <select id="empPosition" required>
+      <option value="">Должность</option><option>Хостес</option><option>Официант</option><option>Бармен</option><option>Менеджер</option><option>Сомелье</option><option>Барменеджер</option><option>Управляющий</option><option>Повар</option><option>Су-шеф</option><option>Мойщица</option>
+    </select>
+    <button class="primary" type="submit">Сохранить сотрудника</button>
+  </form><div id="formMsg"></div>
+ </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDm4TBEVuiv-d1y64WvimmVeWE9G-xb9-A",
+  authDomain: "flo-academy.firebaseapp.com",
+  projectId: "flo-academy",
+  storageBucket: "flo-academy.firebasestorage.app",
+  messagingSenderId: "764123795706",
+  appId: "1:764123795706:web:dd9cf8db1f498bdba57943",
+  measurementId: "G-BMXEJ1GRMP"
+};
+const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+
+const $=id=>document.getElementById(id);
+function show(id){["loginView","adminView","employeeView"].forEach(x=>$(x).classList.add("hidden"));$(id).classList.remove("hidden")}
+function msg(el,text,type="error"){el.innerHTML=text?`<div class="notice ${type}">${text}</div>`:""}
+function friendly(e){const c=e?.code||""; if(c.includes("invalid-credential")||c.includes("wrong-password")||c.includes("user-not-found"))return "Неверный email или пароль."; if(c.includes("email-already-in-use"))return "Такой email уже зарегистрирован."; if(c.includes("weak-password"))return "Пароль слишком простой."; if(c.includes("permission-denied"))return "Недостаточно прав доступа."; return "Ошибка: "+(e?.message||"неизвестная ошибка")}
+
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();msg($("loginMsg"),"");try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}catch(err){msg($("loginMsg"),friendly(err))}});
+$("logoutBtn").onclick=()=>signOut(auth); $("employeeLogoutBtn").onclick=()=>signOut(auth);
+$("addBtn").onclick=()=>{$("modal").classList.remove("hidden");msg($("formMsg"),"")}; $("closeModal").onclick=()=> $("modal").classList.add("hidden");
+
+async function isAdmin(uid){const s=await getDoc(doc(db,"users",uid));return s.exists()&&s.data().role==="admin"}
+async function loadEmployees(){
+  const snap=await getDocs(collection(db,"employees")); let arr=[]; snap.forEach(d=>arr.push({id:d.id,...d.data()}));
+  arr.sort((a,b)=>(a.name||"").localeCompare(b.name||"","ru")); $("countEmployees").textContent=arr.length;
+  $("employeeList").innerHTML=arr.length?arr.map(x=>`<div class="row"><div><div class="name">${escapeHtml(x.name||"Без имени")}</div><div class="meta">${escapeHtml(x.position||"")} · ${escapeHtml(x.email||"")}</div></div><button class="danger del" data-id="${x.id}">Удалить карточку</button></div>`).join(""):`<div class="notice">Пока сотрудников нет.</div>`;
+  document.querySelectorAll(".del").forEach(b=>b.onclick=async()=>{if(confirm("Удалить карточку сотрудника из базы?")){try{await deleteDoc(doc(db,"employees",b.dataset.id));await loadEmployees()}catch(e){msg($("employeeMsg"),friendly(e))}}});
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+
+$("employeeForm").addEventListener("submit",async e=>{
+ e.preventDefault(); msg($("formMsg"),"");
+ const admin=auth.currentUser; if(!admin)return;
+ const email=$("empEmail").value.trim(), password=$("empPassword").value, name=$("empName").value.trim(), position=$("empPosition").value;
+ try{
+   // Secondary Firebase app keeps the administrator signed in while creating the employee.
+   const { initializeApp: init2, deleteApp } = await import("https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js");
+   const { getAuth: getAuth2, createUserWithEmailAndPassword: create2, signOut: signOut2 } = await import("https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js");
+   const secondary=init2(firebaseConfig,"employeeCreator-"+Date.now()), secondaryAuth=getAuth2(secondary);
+   const cred=await create2(secondaryAuth,email,password); const uid=cred.user.uid;
+   await setDoc(doc(db,"users",uid),{role:"employee",name,email,position,active:true,createdAt:serverTimestamp()});
+   await setDoc(doc(db,"employees",uid),{name,email,position,active:true,createdAt:serverTimestamp()});
+   await signOut2(secondaryAuth); await deleteApp(secondary);
+   $("employeeForm").reset(); msg($("formMsg"),"Сотрудник создан и сохранён.","ok"); await loadEmployees();
+   setTimeout(()=>{$("modal").classList.add("hidden");msg($("formMsg"),"")},800);
+ }catch(err){msg($("formMsg"),friendly(err))}
+});
+
+onAuthStateChanged(auth,async user=>{
+ if(!user){show("loginView");return}
+ try{
+   const admin=await isAdmin(user.uid);
+   if(admin){$("adminEmail").textContent=user.email||"";show("adminView");await loadEmployees()}
+   else{const p=await getDoc(doc(db,"users",user.uid));$("employeeHello").textContent=p.exists()?`${p.data().name||user.email} · ${p.data().position||""}`:(user.email||"");show("employeeView")}
+ }catch(e){msg($("loginMsg"),friendly(e));await signOut(auth);show("loginView")}
+});
+</script>
+</body></html>
