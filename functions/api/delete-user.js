@@ -144,11 +144,11 @@ async function getGoogleAccessToken(env) {
 
   const tokenData = await tokenResponse.json();
 
-  if (!tokenResponse.ok || !tokenData.access_token) {
-    throw new Error(
-      "Could not obtain Firebase Admin access token"
-    );
-  }
+if (!tokenResponse.ok || !tokenData.access_token) {
+  throw new Error(
+    "Google token error: " + JSON.stringify(tokenData)
+  );
+}
 
   return tokenData.access_token;
 }
