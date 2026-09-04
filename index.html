@@ -101,8 +101,31 @@ async function isAdmin(uid){const s=await getDoc(doc(db,"users",uid));return s.e
 async function loadEmployees(){
   const snap=await getDocs(collection(db,"employees")); let arr=[]; snap.forEach(d=>arr.push({id:d.id,...d.data()}));
   arr.sort((a,b)=>(a.name||"").localeCompare(b.name||"","ru")); $("countEmployees").textContent=arr.length;
-  $("employeeList").innerHTML=arr.length?arr.map(x=>`<div class="row"><div><div class="name">${escapeHtml(x.name||"Без имени")}</div><div class="meta">${escapeHtml(x.position||"")} · ${escapeHtml(x.email||"")}</div></div><button class="danger del" data-id="${x.id}">Удалить карточку</button></div>`).join(""):`<div class="notice">Пока сотрудников нет.</div>`;
-  document.querySelectorAll(".del").forEach(b=>b.onclick=async()=>{if(confirm("Удалить карточку сотрудника из базы?")){try{await deleteDoc(doc(db,"employees",b.dataset.id));await loadEmployees()}catch(e){msg($("employeeMsg"),friendly(e))}}});
+  $("employeeList").innerHTML=arr.length?arr.map(x=>`<div class="row"><div><div class="name">${escapeHtml(x.name||"Без имени")}</div><div class="meta">${escapeHtml(x.position||"")} · ${escapeHtml(x.email||"")}</div></div><button class="danger del" data-id="${x.id}">Удалить полностью</button></div>`).join(""):`<div class="notice">Пока сотрудников нет.</div>`;
+  document.querySelectorAll(".del").forEach(b=>b.onclick=async()=>{
+    if(!confirm("Полностью удалить сотрудника? Аккаунт, профиль и доступ будут удалены. Этот email можно будет зарегистрировать снова.")) return;
+    const uid=b.dataset.id;
+    try{
+      b.disabled=true; b.textContent="Удаление…"; msg($("employeeMsg"),"");
+      const admin=auth.currentUser;
+      if(!admin) throw new Error("Сессия администратора завершена. Войдите снова.");
+      const idToken=await admin.getIdToken(true);
+      const r=await fetch("https://flo-admin-api.danil-shramov.workers.dev",{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Authorization":"Bearer "+idToken},
+        body:JSON.stringify({uid})
+      });
+      const data=await r.json().catch(()=>({}));
+      if(!r.ok) throw new Error(data?.details?.error?.message || data?.error || "Не удалось удалить аккаунт Firebase.");
+      await deleteDoc(doc(db,"employees",uid));
+      await deleteDoc(doc(db,"users",uid));
+      msg($("employeeMsg"),"Сотрудник полностью удалён. Email снова можно использовать.","ok");
+      await loadEmployees();
+    }catch(e){
+      b.disabled=false; b.textContent="Удалить полностью";
+      msg($("employeeMsg"),"Ошибка удаления: "+(e?.message||"неизвестная ошибка"));
+    }
+  });
 }
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 
