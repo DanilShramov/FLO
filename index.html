@@ -19,7 +19,7 @@ button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:point
 .notice{padding:12px 14px;border-radius:12px;background:#f4f2ed;font-size:14px;margin:12px 0}.error{background:#f8e9e9;color:#8a3030}.ok{background:#eaf4ec;color:#32623c}
 .modal{position:fixed;inset:0;background:rgba(30,30,30,.28);display:flex;align-items:center;justify-content:center;padding:18px}.modalbox{background:white;border-radius:22px;padding:26px;width:min(520px,100%);max-height:90vh;overflow:auto}
 .inlineForm{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.inlineForm input{margin:0}.inlineForm .primary{width:auto;margin:0;white-space:nowrap}.sectionIcon{width:42px;height:42px;border-radius:12px;background:#eeece7;display:grid;place-items:center;font:20px Georgia,serif;flex:0 0 auto}.sectionInfo{display:flex;align-items:center;gap:12px}
-.folderOpen{background:transparent;padding:0;text-align:left;color:inherit}.folderOpen:hover .name{text-decoration:underline}.breadcrumbs{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:0 0 20px}.crumb{background:transparent;padding:4px 2px;color:#61666b}.crumb:hover{text-decoration:underline}.crumbCurrent{font-weight:650;color:var(--text)}.levelBadge{display:inline-block;padding:5px 9px;border-radius:999px;background:#eeece7;color:#666;font-size:12px;margin-left:8px}.folderActions{display:flex;gap:7px;flex-wrap:wrap}.limitHint{font-size:12px;color:#777;margin-top:8px}.sectionHeader{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.academyLogo span{font-size:.38em;letter-spacing:4px;vertical-align:middle;margin-left:4px}.miniTree{margin-top:7px;font-size:12px;color:#777;line-height:1.5}.miniTree span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px}.folderNameRow{display:flex;align-items:center;gap:6px}
+.folderOpen{background:transparent;padding:0;text-align:left;color:inherit}.folderOpen:hover .name{text-decoration:underline}.breadcrumbs{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:0 0 20px}.crumb{background:transparent;padding:4px 2px;color:#61666b}.crumb:hover{text-decoration:underline}.crumbCurrent{font-weight:650;color:var(--text)}.levelBadge{display:inline-block;padding:5px 9px;border-radius:999px;background:#eeece7;color:#666;font-size:12px;margin-left:8px}.folderActions{display:flex;gap:7px;flex-wrap:wrap}.limitHint{font-size:12px;color:#777;margin-top:8px}.sectionHeader{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.academyLogo span{font-size:1em;letter-spacing:8px;vertical-align:baseline;margin-left:8px}.miniTree{margin-top:7px;font-size:12px;color:#777;line-height:1.5}.miniTree span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px}.folderNameRow{display:flex;align-items:center;gap:6px}
 @media(max-width:600px){.wrap{padding:16px 12px 40px}.card{padding:25px 20px;border-radius:22px}.logo{font-size:44px}.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.actions{width:100%}.actions button{flex:1}.inlineForm{grid-template-columns:1fr}.inlineForm .primary{width:100%}.row{align-items:flex-start;flex-direction:column}.folderActions{width:100%}.folderActions button{flex:1}}
 </style>
 </head>
@@ -39,7 +39,7 @@ button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:point
 
   <section id="adminView" class="card hidden">
     <div class="top">
-      <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:6px">FLO <span style="font-size:.55em;letter-spacing:3px">ACADEMY</span></div></div><h1 style="margin-top:18px">Администратор</h1><div id="adminEmail" class="sub"></div></div>
+      <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:6px">FLO <span style="font-size:1em;letter-spacing:6px">ACADEMY</span></div></div><h1 style="margin-top:18px">Администратор</h1><div id="adminEmail" class="sub"></div></div>
       <div class="actions"><button id="logoutBtn" class="secondary">Выйти</button></div>
     </div>
     <div class="grid">
@@ -51,7 +51,7 @@ button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:point
 
   <section id="employeesView" class="card hidden">
     <div class="top">
-      <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:6px">FLO <span style="font-size:.55em;letter-spacing:3px">ACADEMY</span></div></div><h1 style="margin-top:18px">Сотрудники</h1><div class="sub">Управление сотрудниками</div></div>
+      <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:6px">FLO <span style="font-size:1em;letter-spacing:6px">ACADEMY</span></div></div><h1 style="margin-top:18px">Сотрудники</h1><div class="sub">Управление сотрудниками</div></div>
       <div class="actions"><button id="backToAdminFromEmployeesBtn" class="secondary">← Назад</button><button id="employeesLogoutBtn" class="secondary">Выйти</button></div>
     </div>
     <div class="rule"></div>
@@ -65,13 +65,13 @@ button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:point
 
   <section id="materialsView" class="card hidden">
     <div class="top">
-      <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:6px">FLO <span style="font-size:.55em;letter-spacing:3px">ACADEMY</span></div></div><h1 style="margin-top:18px">Материалы</h1><div class="sub">Дерево обучения до 10 уровней</div></div>
+      <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:6px">FLO <span style="font-size:1em;letter-spacing:6px">ACADEMY</span></div></div><h1 style="margin-top:18px">Материалы</h1><div class="sub"></div></div>
       <div class="actions"><button id="backToAdminBtn" class="secondary">← Назад</button><button id="materialsLogoutBtn" class="secondary">Выйти</button></div>
     </div>
     <div class="rule"></div>
     <div id="sectionBreadcrumb" class="breadcrumbs"></div>
     <div class="sectionHeader"><h2 id="createFolderTitle">Создать раздел</h2></div>
-    <div id="createFolderSub" class="sub">Например: Сервис, Бар или Кухня</div>
+    <div id="createFolderSub" class="sub"></div>
     <form id="sectionForm" class="inlineForm">
       <input id="sectionName" maxlength="60" placeholder="Название раздела" required>
       <button id="createSectionBtn" class="primary" type="submit">+ Создать</button>
@@ -79,7 +79,7 @@ button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:point
     <div id="folderLimitHint" class="limitHint"></div>
     <div id="sectionMsg"></div>
     <div class="rule"></div>
-    <div class="top"><div><h2 id="foldersHeading">Разделы</h2><div id="foldersSub" class="sub" style="margin-bottom:0">Откройте раздел, чтобы создать папки внутри</div></div><b id="materialsCountLabel">0</b></div>
+    <div class="top"><div><h2 id="foldersHeading">Разделы</h2><div id="foldersSub" class="sub" style="margin-bottom:0">Откройте раздел, чтобы создать папки внутри</div></div></div>
     <div id="sectionList" class="list"></div>
   </section>
 
@@ -204,10 +204,10 @@ async function loadSections(createDefaults=false){
     const sections=createDefaults?await ensureDefaultSections():await readSections();
     if(currentFolderId&&!getFolderById(sections,currentFolderId))currentFolderId=null;
     const current=getFolderById(sections,currentFolderId);const currentDepth=current?normalizedDepth(current):0;const children=getChildren(sections,currentFolderId);const roots=getChildren(sections,null);
-    $("countSections").textContent=roots.length;$("materialsCountLabel").textContent=`${children.length}/${MAX_CHILD_FOLDERS}`;
+    $("countSections").textContent=roots.length;if($("materialsCountLabel"))$("materialsCountLabel").textContent=`${children.length}/${MAX_CHILD_FOLDERS}`;
     renderAdminBreadcrumb(sections);
     $("createFolderTitle").textContent=currentFolderId?"Создать папку":"Создать раздел";
-    $("createFolderSub").textContent=currentFolderId?`Папка будет создана внутри «${current?.name||"раздела"}»`:`Например: Сервис, Бар или Кухня`;
+    $("createFolderSub").textContent="";
     $("foldersHeading").textContent=currentFolderId?"Папки":"Разделы";
     $("foldersSub").textContent=currentFolderId?"Откройте папку, чтобы перейти глубже":"Откройте раздел, чтобы создать папки внутри";
     const nextDepth=currentDepth+1;
@@ -215,7 +215,7 @@ async function loadSections(createDefaults=false){
     $("sectionName").disabled=createDisabled;$("createSectionBtn").disabled=createDisabled;
     $("createSectionBtn").textContent=atDepthLimit?"Максимум 10 уровней":atCountLimit?"Максимум 10 папок":"+ Создать";
     $("folderLimitHint").textContent=atDepthLimit?"Достигнут максимальный уровень вложенности. Материалы сюда добавлять можно, новые папки — нет.":`${children.length} из ${MAX_CHILD_FOLDERS} папок на этом уровне.`;
-    $("sectionList").innerHTML=children.length?children.map(s=>{const kids=getChildren(sections,s.id);const preview=kids.slice(0,4).map(k=>`<span>└ ${escapeHtml(k.name||"Папка")}</span>`).join("")+(kids.length>4?`<span>└ ещё ${kids.length-4}…</span>`:"");return `<div class="row"><button class="folderOpen" data-id="${s.id}"><div class="sectionInfo"><div class="sectionIcon">▱</div><div><div class="folderNameRow"><div class="name">${escapeHtml(s.name||"Без названия")}</div><div>→</div></div>${preview?`<div class="miniTree">${preview}</div>`:""}</div></div></button><div class="folderActions"><button class="secondary small renameSection" data-id="${s.id}">Переименовать</button><button class="danger small deleteSection" data-id="${s.id}">Удалить</button></div></div>`}).join(""):`<div class="notice">На этом уровне папок пока нет.</div>`;
+    $("sectionList").innerHTML=children.length?children.map(s=>{const kids=getChildren(sections,s.id);const preview=kids.slice(0,4).map(k=>`<span>└ ${escapeHtml(k.name||"Папка")}</span>`).join("")+(kids.length>4?`<span>└ ещё ${kids.length-4}…</span>`:"");return `<div class="row"><button class="folderOpen" data-id="${s.id}"><div class="sectionInfo"><div class="sectionIcon">${escapeHtml((s.name||"П").trim().charAt(0).toUpperCase())}</div><div><div class="folderNameRow"><div class="name">${escapeHtml(s.name||"Без названия")}</div><div>→</div></div>${preview?`<div class="miniTree">${preview}</div>`:""}</div></div></button><div class="folderActions"><button class="secondary small renameSection" data-id="${s.id}">Переименовать</button><button class="danger small deleteSection" data-id="${s.id}">Удалить</button></div></div>`}).join(""):`<div class="notice">На этом уровне папок пока нет.</div>`;
     document.querySelectorAll(".folderOpen").forEach(b=>b.onclick=async()=>{currentFolderId=b.dataset.id;msg($("sectionMsg"),"");await loadSections()});
     document.querySelectorAll(".renameSection").forEach(button=>button.onclick=async()=>{
       const item=getFolderById(sections,button.dataset.id);if(!item)return;const next=prompt("Новое название папки:",item.name||"");if(next===null)return;const name=next.trim();if(!name)return;
