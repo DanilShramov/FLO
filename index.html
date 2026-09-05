@@ -11,13 +11,15 @@
 .brand{text-align:center}.logo{font:52px Georgia,serif;letter-spacing:12px;margin-left:12px}.tag{font-size:11px;letter-spacing:2.2px;color:#777;margin-top:10px}.rule{height:1px;background:var(--line);margin:28px 0}
 h1{font:28px Georgia,serif;margin:0 0 8px}h2{font:23px Georgia,serif;margin:0}.sub{color:var(--muted);font-size:14px;margin:5px 0 22px}
 input,select{width:100%;padding:15px 16px;border:1px solid #d8d5cf;border-radius:13px;background:#faf9f6;font-size:16px;margin:6px 0;outline:none}
-button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:pointer}.primary{width:100%;background:var(--dark);color:white;font-weight:650;margin-top:8px}.secondary{background:#eeece7;color:#333}.danger{background:#f6e8e8;color:#8a3030}
+button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:pointer}.primary{width:100%;background:var(--dark);color:white;font-weight:650;margin-top:8px}.secondary{background:#eeece7;color:#333}.danger{background:#f6e8e8;color:#8a3030}.small{padding:10px 13px;font-size:13px}
 .hidden{display:none!important}.top{display:flex;justify-content:space-between;gap:14px;align-items:center}.actions{display:flex;gap:8px;flex-wrap:wrap}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}.tile{padding:20px;border:1px solid var(--line);border-radius:16px;background:#faf9f6}.tile b{display:block;font:20px Georgia,serif;margin-bottom:5px}
+.tileButton{width:100%;color:inherit;text-align:left}.tileButton:hover{border-color:#b8b3aa;background:#f4f1eb}.tileButton span{color:#666}
 .list{margin-top:16px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #eeeae3;padding:15px 2px}.row:first-child{border-top:0}.name{font-weight:650}.meta{font-size:13px;color:#777;margin-top:4px}
 .notice{padding:12px 14px;border-radius:12px;background:#f4f2ed;font-size:14px;margin:12px 0}.error{background:#f8e9e9;color:#8a3030}.ok{background:#eaf4ec;color:#32623c}
 .modal{position:fixed;inset:0;background:rgba(30,30,30,.28);display:flex;align-items:center;justify-content:center;padding:18px}.modalbox{background:white;border-radius:22px;padding:26px;width:min(520px,100%);max-height:90vh;overflow:auto}
-@media(max-width:600px){.wrap{padding:16px 12px 40px}.card{padding:25px 20px;border-radius:22px}.logo{font-size:44px}.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.actions{width:100%}.actions button{flex:1}}
+.inlineForm{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.inlineForm input{margin:0}.inlineForm .primary{width:auto;margin:0;white-space:nowrap}.sectionIcon{width:42px;height:42px;border-radius:12px;background:#eeece7;display:grid;place-items:center;font:20px Georgia,serif;flex:0 0 auto}.sectionInfo{display:flex;align-items:center;gap:12px}
+@media(max-width:600px){.wrap{padding:16px 12px 40px}.card{padding:25px 20px;border-radius:22px}.logo{font-size:44px}.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.actions{width:100%}.actions button{flex:1}.inlineForm{grid-template-columns:1fr}.inlineForm .primary{width:100%}}
 </style>
 </head>
 <body>
@@ -41,7 +43,7 @@ button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:point
     </div>
     <div class="grid">
       <div class="tile"><b id="countEmployees">0</b><span>Сотрудников</span></div>
-      <div class="tile"><b>FLO</b><span>Материалы — следующий этап</span></div>
+      <button id="openMaterialsBtn" class="tile tileButton"><b id="countSections">0</b><span>Разделы материалов →</span></button>
       <div class="tile"><b>Тесты</b><span>Следующий этап</span></div>
     </div>
     <div class="rule"></div>
@@ -49,10 +51,27 @@ button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:point
     <div id="employeeMsg"></div><div id="employeeList" class="list"></div>
   </section>
 
+  <section id="materialsView" class="card hidden">
+    <div class="top">
+      <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:8px">FLO</div></div><h1 style="margin-top:18px">Материалы</h1><div class="sub">Разделы обучения</div></div>
+      <div class="actions"><button id="backToAdminBtn" class="secondary">← Назад</button><button id="materialsLogoutBtn" class="secondary">Выйти</button></div>
+    </div>
+    <div class="rule"></div>
+    <h2>Создать раздел</h2><div class="sub">Например: Сервис, Бар или Кухня</div>
+    <form id="sectionForm" class="inlineForm">
+      <input id="sectionName" maxlength="60" placeholder="Название раздела" required>
+      <button class="primary" type="submit">+ Создать</button>
+    </form>
+    <div id="sectionMsg"></div>
+    <div class="rule"></div>
+    <div class="top"><div><h2>Разделы</h2><div class="sub" style="margin-bottom:0">Внутри каждого раздела позже появятся файлы</div></div><b id="materialsCountLabel">0</b></div>
+    <div id="sectionList" class="list"></div>
+  </section>
+
   <section id="employeeView" class="card hidden">
     <div class="brand"><div class="logo">FLO</div><div class="tag">FOOD LOVERS ONLY · СДЕЛАНО В ПЕТЕРБУРГЕ</div></div>
     <div class="rule"></div><h1>Обучение</h1><div id="employeeHello" class="sub"></div>
-    <div class="grid"><div class="tile"><b>Сервис</b><span>Материалы</span></div><div class="tile"><b>Кухня</b><span>Материалы</span></div><div class="tile"><b>Бар</b><span>Материалы</span></div></div>
+    <div id="employeeSections" class="grid"></div>
     <button id="employeeLogoutBtn" class="secondary">Выйти</button>
   </section>
 </div>
@@ -74,7 +93,7 @@ button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:point
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, collection, getDocs, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -86,81 +105,107 @@ const firebaseConfig = {
   appId: "1:764123795706:web:dd9cf8db1f498bdba57943",
   measurementId: "G-BMXEJ1GRMP"
 };
+
+// FLO-specific defaults are kept separate from the reusable section-management logic.
+const DEFAULT_MATERIAL_SECTIONS = ["Сервис", "Бар", "Кухня"];
 const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
-
 const $=id=>document.getElementById(id);
-function show(id){["loginView","adminView","employeeView"].forEach(x=>$(x).classList.add("hidden"));$(id).classList.remove("hidden")}
-function msg(el,text,type="error"){el.innerHTML=text?`<div class="notice ${type}">${text}</div>`:""}
-function friendly(e){const c=e?.code||""; if(c.includes("invalid-credential")||c.includes("wrong-password")||c.includes("user-not-found"))return "Неверный email или пароль."; if(c.includes("email-already-in-use"))return "Такой email уже зарегистрирован."; if(c.includes("weak-password"))return "Пароль слишком простой."; if(c.includes("permission-denied"))return "Недостаточно прав доступа."; return "Ошибка: "+(e?.message||"неизвестная ошибка")}
 
-$("loginForm").addEventListener("submit",async e=>{e.preventDefault();msg($("loginMsg"),"");try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}catch(err){msg($("loginMsg"),friendly(err))}});
-$("logoutBtn").onclick=()=>signOut(auth); $("employeeLogoutBtn").onclick=()=>signOut(auth);
-$("addBtn").onclick=()=>{$("modal").classList.remove("hidden");msg($("formMsg"),"")}; $("closeModal").onclick=()=> $("modal").classList.add("hidden");
-
-async function isAdmin(uid){const s=await getDoc(doc(db,"users",uid));return s.exists()&&s.data().role==="admin"}
-async function loadEmployees(){
-  const snap=await getDocs(collection(db,"employees")); let arr=[]; snap.forEach(d=>arr.push({id:d.id,...d.data()}));
-  arr.sort((a,b)=>(a.name||"").localeCompare(b.name||"","ru")); $("countEmployees").textContent=arr.length;
-  $("employeeList").innerHTML=arr.length?arr.map(x=>`<div class="row"><div><div class="name">${escapeHtml(x.name||"Без имени")}</div><div class="meta">${escapeHtml(x.position||"")} · ${escapeHtml(x.email||"")}</div></div><button class="danger del" data-id="${x.id}">Удалить полностью</button></div>`).join(""):`<div class="notice">Пока сотрудников нет.</div>`;
-  document.querySelectorAll(".del").forEach(b=>b.onclick=async()=>{
-    if(!confirm("Полностью удалить сотрудника? Аккаунт, профиль и доступ будут удалены. Этот email можно будет зарегистрировать снова.")) return;
-    const uid=b.dataset.id;
-    try{
-      b.disabled=true; b.textContent="Удаление…"; msg($("employeeMsg"),"");
-      const admin=auth.currentUser;
-      if(!admin) throw new Error("Сессия администратора завершена. Войдите снова.");
-      const idToken=await admin.getIdToken(true);
-
-      const r=await fetch("/api/delete-user",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "Authorization":"Bearer "+idToken
-        },
-        body:JSON.stringify({uid})
-      });
-
-      const data=await r.json().catch(()=>({}));
-      if(!r.ok) throw new Error(data?.details?.error?.message || data?.error || "Не удалось удалить аккаунт Firebase.");
-
-      await deleteDoc(doc(db,"employees",uid));
-      await deleteDoc(doc(db,"users",uid));
-
-      msg($("employeeMsg"),"Сотрудник полностью удалён. Email снова можно использовать.","ok");
-      await loadEmployees();
-    }catch(e){
-      b.disabled=false; b.textContent="Удалить полностью";
-      msg($("employeeMsg"),"Ошибка удаления: "+(e?.message||"неизвестная ошибка"));
-    }
-  });
-}
+function show(id){["loginView","adminView","materialsView","employeeView"].forEach(x=>$(x).classList.add("hidden"));$(id).classList.remove("hidden")}
+function msg(el,text,type="error"){el.innerHTML=text?`<div class="notice ${type}">${escapeHtml(text)}</div>`:""}
+function friendly(e){const c=e?.code||"";if(c.includes("invalid-credential")||c.includes("wrong-password")||c.includes("user-not-found"))return "Неверный email или пароль.";if(c.includes("email-already-in-use"))return "Такой email уже зарегистрирован.";if(c.includes("weak-password"))return "Пароль слишком простой.";if(c.includes("permission-denied"))return "Недостаточно прав доступа. Проверьте правила Firestore.";return "Ошибка: "+(e?.message||"неизвестная ошибка")}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();msg($("loginMsg"),"");try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}catch(err){msg($("loginMsg"),friendly(err))}});
+$("logoutBtn").onclick=()=>signOut(auth);$("materialsLogoutBtn").onclick=()=>signOut(auth);$("employeeLogoutBtn").onclick=()=>signOut(auth);
+$("addBtn").onclick=()=>{$("modal").classList.remove("hidden");msg($("formMsg"),"")};$("closeModal").onclick=()=>$("modal").classList.add("hidden");
+$("backToAdminBtn").onclick=()=>show("adminView");
+$("openMaterialsBtn").onclick=async()=>{show("materialsView");await loadSections(true)};
+
+async function isAdmin(uid){const s=await getDoc(doc(db,"users",uid));return s.exists()&&s.data().role==="admin"}
+
+async function loadEmployees(){
+  const snap=await getDocs(collection(db,"employees"));let arr=[];snap.forEach(d=>arr.push({id:d.id,...d.data()}));
+  arr.sort((a,b)=>(a.name||"").localeCompare(b.name||"","ru"));$("countEmployees").textContent=arr.length;
+  $("employeeList").innerHTML=arr.length?arr.map(x=>`<div class="row"><div><div class="name">${escapeHtml(x.name||"Без имени")}</div><div class="meta">${escapeHtml(x.position||"")} · ${escapeHtml(x.email||"")}</div></div><button class="danger del" data-id="${x.id}">Удалить полностью</button></div>`).join(""):`<div class="notice">Пока сотрудников нет.</div>`;
+  document.querySelectorAll(".del").forEach(b=>b.onclick=async()=>{
+    if(!confirm("Полностью удалить сотрудника? Аккаунт, профиль и доступ будут удалены. Этот email можно будет зарегистрировать снова."))return;
+    const uid=b.dataset.id;
+    try{
+      b.disabled=true;b.textContent="Удаление…";msg($("employeeMsg"),"");const admin=auth.currentUser;if(!admin)throw new Error("Сессия администратора завершена. Войдите снова.");const idToken=await admin.getIdToken(true);
+      const r=await fetch("/api/delete-user",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+idToken},body:JSON.stringify({uid})});
+      const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data?.details?.error?.message||data?.error||"Не удалось удалить аккаунт Firebase.");
+      await deleteDoc(doc(db,"employees",uid));await deleteDoc(doc(db,"users",uid));msg($("employeeMsg"),"Сотрудник полностью удалён. Email снова можно использовать.","ok");await loadEmployees();
+    }catch(e){b.disabled=false;b.textContent="Удалить полностью";msg($("employeeMsg"),"Ошибка удаления: "+(e?.message||"неизвестная ошибка"))}
+  });
+}
+
+async function readSections(){
+  const snap=await getDocs(collection(db,"materialSections"));const sections=[];snap.forEach(d=>sections.push({id:d.id,...d.data()}));
+  return sections.sort((a,b)=>(a.order??999)-(b.order??999)||(a.name||"").localeCompare(b.name||"","ru"));
+}
+
+async function createSection(name,order=Date.now()){
+  const ref=doc(collection(db,"materialSections"));
+  await setDoc(ref,{name:name.trim(),order,createdAt:serverTimestamp(),createdBy:auth.currentUser.uid});
+}
+
+async function ensureDefaultSections(){
+  let sections=await readSections();
+  if(sections.length)return sections;
+  await Promise.all(DEFAULT_MATERIAL_SECTIONS.map((name,index)=>createSection(name,index)));
+  return readSections();
+}
+
+async function loadSections(createDefaults=false){
+  try{
+    const sections=createDefaults?await ensureDefaultSections():await readSections();
+    $("countSections").textContent=sections.length;$("materialsCountLabel").textContent=sections.length;
+    $("sectionList").innerHTML=sections.length?sections.map(s=>`<div class="row"><div class="sectionInfo"><div class="sectionIcon">${escapeHtml((s.name||"Р").trim().charAt(0).toUpperCase())}</div><div><div class="name">${escapeHtml(s.name||"Без названия")}</div><div class="meta">Пока без файлов</div></div></div><button class="danger small deleteSection" data-id="${s.id}" data-name="${escapeHtml(s.name||"")}">Удалить</button></div>`).join(""):`<div class="notice">Пока разделов нет.</div>`;
+    document.querySelectorAll(".deleteSection").forEach(button=>button.onclick=async()=>{
+      if(!confirm(`Удалить раздел «${button.dataset.name}»?`))return;
+      try{button.disabled=true;await deleteDoc(doc(db,"materialSections",button.dataset.id));msg($("sectionMsg"),"Раздел удалён.","ok");await loadSections()}catch(e){button.disabled=false;msg($("sectionMsg"),friendly(e))}
+    });
+    return sections;
+  }catch(e){msg($("sectionMsg"),friendly(e));throw e}
+}
+
+async function loadEmployeeSections(){
+  try{
+    const sections=await readSections();
+    $("employeeSections").innerHTML=sections.length?sections.map(s=>`<div class="tile"><b>${escapeHtml(s.name||"Раздел")}</b><span>Материалы скоро появятся</span></div>`).join(""):`<div class="notice" style="grid-column:1/-1">Разделы обучения пока не созданы.</div>`;
+  }catch(e){$("employeeSections").innerHTML=`<div class="notice error" style="grid-column:1/-1">${escapeHtml(friendly(e))}</div>`}
+}
+
+$("sectionForm").addEventListener("submit",async e=>{
+  e.preventDefault();msg($("sectionMsg"),"");const name=$("sectionName").value.trim();if(!name)return;
+  try{
+    const existing=await readSections();if(existing.some(s=>(s.name||"").trim().toLocaleLowerCase("ru")===name.toLocaleLowerCase("ru")))throw new Error("Раздел с таким названием уже существует.");
+    await createSection(name);$("sectionForm").reset();msg($("sectionMsg"),"Раздел создан.","ok");await loadSections();
+  }catch(e){msg($("sectionMsg"),friendly(e))}
+});
+
 $("employeeForm").addEventListener("submit",async e=>{
- e.preventDefault(); msg($("formMsg"),"");
- const admin=auth.currentUser; if(!admin)return;
- const email=$("empEmail").value.trim(), password=$("empPassword").value, name=$("empName").value.trim(), position=$("empPosition").value;
- try{
-   // Secondary Firebase app keeps the administrator signed in while creating the employee.
-   const { initializeApp: init2, deleteApp } = await import("https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js");
-   const { getAuth: getAuth2, createUserWithEmailAndPassword: create2, signOut: signOut2 } = await import("https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js");
-   const secondary=init2(firebaseConfig,"employeeCreator-"+Date.now()), secondaryAuth=getAuth2(secondary);
-   const cred=await create2(secondaryAuth,email,password); const uid=cred.user.uid;
-   await setDoc(doc(db,"users",uid),{role:"employee",name,email,position,active:true,createdAt:serverTimestamp()});
-   await setDoc(doc(db,"employees",uid),{name,email,position,active:true,createdAt:serverTimestamp()});
-   await signOut2(secondaryAuth); await deleteApp(secondary);
-   $("employeeForm").reset(); msg($("formMsg"),"Сотрудник создан и сохранён.","ok"); await loadEmployees();
-   setTimeout(()=>{$("modal").classList.add("hidden");msg($("formMsg"),"")},800);
- }catch(err){msg($("formMsg"),friendly(err))}
+  e.preventDefault();msg($("formMsg"),"");const admin=auth.currentUser;if(!admin)return;
+  const email=$("empEmail").value.trim(),password=$("empPassword").value,name=$("empName").value.trim(),position=$("empPosition").value;
+  try{
+    const {initializeApp:init2,deleteApp}=await import("https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js");const {getAuth:getAuth2,createUserWithEmailAndPassword:create2,signOut:signOut2}=await import("https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js");
+    const secondary=init2(firebaseConfig,"employeeCreator-"+Date.now()),secondaryAuth=getAuth2(secondary);const cred=await create2(secondaryAuth,email,password);const uid=cred.user.uid;
+    await setDoc(doc(db,"users",uid),{role:"employee",name,email,position,active:true,createdAt:serverTimestamp()});await setDoc(doc(db,"employees",uid),{name,email,position,active:true,createdAt:serverTimestamp()});
+    await signOut2(secondaryAuth);await deleteApp(secondary);$("employeeForm").reset();msg($("formMsg"),"Сотрудник создан и сохранён.","ok");await loadEmployees();setTimeout(()=>{$("modal").classList.add("hidden");msg($("formMsg"),"")},800);
+  }catch(err){msg($("formMsg"),friendly(err))}
 });
 
 onAuthStateChanged(auth,async user=>{
- if(!user){show("loginView");return}
- try{
-   const admin=await isAdmin(user.uid);
-   if(admin){$("adminEmail").textContent=user.email||"";show("adminView");await loadEmployees()}
-   else{const p=await getDoc(doc(db,"users",user.uid));$("employeeHello").textContent=p.exists()?`${p.data().name||user.email} · ${p.data().position||""}`:(user.email||"");show("employeeView")}
- }catch(e){msg($("loginMsg"),friendly(e));await signOut(auth);show("loginView")}
+  if(!user){show("loginView");return}
+  try{
+    const admin=await isAdmin(user.uid);
+    if(admin){
+      $("adminEmail").textContent=user.email||"";show("adminView");await loadEmployees();
+      try{const sections=await readSections();$("countSections").textContent=sections.length}catch(e){$("countSections").textContent="—"}
+    }
+    else{const p=await getDoc(doc(db,"users",user.uid));$("employeeHello").textContent=p.exists()?`${p.data().name||user.email} · ${p.data().position||""}`:(user.email||"");show("employeeView");await loadEmployeeSections()}
+  }catch(e){msg($("loginMsg"),friendly(e));await signOut(auth);show("loginView")}
 });
 </script>
 </body></html>
