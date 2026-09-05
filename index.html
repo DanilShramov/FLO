@@ -40,16 +40,27 @@ button{border:0;border-radius:13px;padding:14px 18px;font-size:15px;cursor:point
   <section id="adminView" class="card hidden">
     <div class="top">
       <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:6px">FLO <span style="font-size:.55em;letter-spacing:3px">ACADEMY</span></div></div><h1 style="margin-top:18px">Администратор</h1><div id="adminEmail" class="sub"></div></div>
-      <div class="actions"><button id="addBtn" class="secondary">+ Добавить сотрудника</button><button id="logoutBtn" class="secondary">Выйти</button></div>
+      <div class="actions"><button id="logoutBtn" class="secondary">Выйти</button></div>
     </div>
     <div class="grid">
-      <div class="tile"><b id="countEmployees">0</b><span>Сотрудников</span></div>
+      <button id="openEmployeesBtn" class="tile tileButton"><b id="countEmployees">0</b><span>Сотрудники →</span></button>
       <button id="openMaterialsBtn" class="tile tileButton"><b id="countSections">0</b><span>Разделы материалов →</span></button>
       <div class="tile"><b>Тесты</b><span>Следующий этап</span></div>
     </div>
+  </section>
+
+  <section id="employeesView" class="card hidden">
+    <div class="top">
+      <div><div class="brand" style="text-align:left"><div class="logo" style="font-size:31px;margin:0;letter-spacing:6px">FLO <span style="font-size:.55em;letter-spacing:3px">ACADEMY</span></div></div><h1 style="margin-top:18px">Сотрудники</h1><div class="sub">Управление сотрудниками</div></div>
+      <div class="actions"><button id="backToAdminFromEmployeesBtn" class="secondary">← Назад</button><button id="employeesLogoutBtn" class="secondary">Выйти</button></div>
+    </div>
     <div class="rule"></div>
-    <h2>Сотрудники</h2><div class="sub">Список сохраняется в Cloud Firestore</div>
-    <div id="employeeMsg"></div><div id="employeeList" class="list"></div>
+    <div class="top">
+      <div><h2>Список сотрудников</h2><div class="sub" style="margin-bottom:0">Добавление и удаление сотрудников</div></div>
+      <button id="addEmployeeFromListBtn" class="secondary">+ Добавить сотрудника</button>
+    </div>
+    <div id="employeeMsg"></div>
+    <div id="employeeList" class="list"></div>
   </section>
 
   <section id="materialsView" class="card hidden">
@@ -119,7 +130,7 @@ const $=id=>document.getElementById(id);
 let currentFolderId=null;
 let employeeFolderId=null;
 
-function show(id){["loginView","adminView","materialsView","employeeView"].forEach(x=>$(x).classList.add("hidden"));$(id).classList.remove("hidden")}
+function show(id){["loginView","adminView","employeesView","materialsView","employeeView"].forEach(x=>$(x).classList.add("hidden"));$(id).classList.remove("hidden")}
 function msg(el,text,type="error"){el.innerHTML=text?`<div class="notice ${type}">${escapeHtml(text)}</div>`:""}
 function friendly(e){const c=e?.code||"";if(c.includes("invalid-credential")||c.includes("wrong-password")||c.includes("user-not-found"))return "Неверный email или пароль.";if(c.includes("email-already-in-use"))return "Такой email уже зарегистрирован.";if(c.includes("weak-password"))return "Пароль слишком простой.";if(c.includes("permission-denied"))return "Недостаточно прав доступа. Проверьте правила Firestore.";return "Ошибка: "+(e?.message||"неизвестная ошибка")}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
@@ -127,10 +138,10 @@ function normalizedParent(s){return s.parentId||null}
 function normalizedDepth(s){return Number(s.depth)||1}
 
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();msg($("loginMsg"),"");try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}catch(err){msg($("loginMsg"),friendly(err))}});
-$("logoutBtn").onclick=()=>signOut(auth);$("materialsLogoutBtn").onclick=()=>signOut(auth);$("employeeLogoutBtn").onclick=()=>signOut(auth);
-$("addBtn").onclick=()=>{$("modal").classList.remove("hidden");msg($("formMsg"),"")};$("closeModal").onclick=()=>$("modal").classList.add("hidden");
-$("backToAdminBtn").onclick=()=>{currentFolderId=null;show("adminView")};
-$("openMaterialsBtn").onclick=async()=>{currentFolderId=null;show("materialsView");await loadSections(true)};
+$("logoutBtn").onclick=()=>signOut(auth);$("employeesLogoutBtn").onclick=()=>signOut(auth);$("materialsLogoutBtn").onclick=()=>signOut(auth);$("employeeLogoutBtn").onclick=()=>signOut(auth);
+if($("addBtn"))$("addBtn").onclick=()=>{$("modal").classList.remove("hidden");msg($("formMsg"),"")};$("addEmployeeFromListBtn").onclick=()=>{$("modal").classList.remove("hidden");msg($("formMsg"),"")};$("closeModal").onclick=()=>$("modal").classList.add("hidden");
+$("backToAdminFromEmployeesBtn").onclick=()=>show("adminView");$("backToAdminBtn").onclick=()=>{currentFolderId=null;show("adminView")};
+$("openEmployeesBtn").onclick=async()=>{show("employeesView");await loadEmployees()};$("openMaterialsBtn").onclick=async()=>{currentFolderId=null;show("materialsView");await loadSections(true)};
 
 async function isAdmin(uid){const s=await getDoc(doc(db,"users",uid));return s.exists()&&s.data().role==="admin"}
 
